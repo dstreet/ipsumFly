@@ -137,5 +137,4 @@ Default tags:
 
 ## TODO
 
-* Consider adding two different attachment options: insert and integrate. Currently using insert. Integrate would take the specified amount of text from the parent to fill its output.
 * Consider allowing selectors to be used in groups. For instace: `tags: ['h1 > a']` would define rules for all **a** tags that are direct descendents of an **h1** tag.
