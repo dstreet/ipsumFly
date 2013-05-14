@@ -138,3 +138,5 @@ Default tags:
 ## TODO
 
 * Consider allowing selectors to be used in groups. For instace: `tags: ['h1 > a']` would define rules for all **a** tags that are direct descendents of an **h1** tag.
+* Add minSize option
+* Consider adding support for img tags using placeholder image services.
