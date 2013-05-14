@@ -10,6 +10,27 @@
 (function($, ipsum) {
 
 	/**
+	 * Utility method to pull a specific property out of an array
+	 * of objects.
+	 *
+	 * @function pluck
+	 * @param arr The array to search
+	 * @param prop The property to pull
+	 * @returns {Array}
+	 */
+	function pluck(arr, prop) {
+		var returnArr = [];
+
+		for (var i = 0; i < arr.length; i += 1) {
+			if (arr[i].hasOwnProperty(prop)) {
+				returnArr.push(arr[i][prop]);
+			}
+		}
+
+		return returnArr;
+	}
+
+	/**
 	 * Lorem Ipsum generator class
 	 * 
 	 * @class IpsumGenerator
@@ -26,14 +47,15 @@
 				type: 'word',
 				position: 'before',
 				maxSize: 2,
-				repeat: 0
+				repeat: 0,
+				attachment: 'insert'
 			},
 			// Groups array must be in order of precedence, with the highest precedence at the end.
 			groups: [
 				{
 					tags: [
 						'a', 'abbr', 'acroynm', 'b', 'big', 'cite', 'code', 'details', 'em',
-						'label', 'q', 'samp', 'small', 'source', 'span', 'strong', 'sub',
+						'i', 'label', 'q', 'samp', 'small', 'source', 'span', 'strong', 'sub',
 						'summary', 'sup', 'texarea', 'tt'
 					],
 					rules: {
@@ -153,6 +175,28 @@
 		return returnArr;
 	}
 
+
+	/**
+	 * Utility method to parse the placeholders in a string.
+	 * 
+	 * @function parsePlaceholders
+	 * @param searchStr The string to search
+	 * @param replaceArr The array with values to populate
+	 * @returns {String}
+	 */
+	IpsumGenerator.prototype.parsePlaceholders = function(searchStr, replaceArr) {		
+		var matches = searchStr.match(/{[0-9]+}/g)
+			, index = undefined
+			, returnStr = searchStr;
+
+		for (m in matches) {
+			index = parseInt(matches[m].match(/[0-9]+/)[0]);
+			returnStr = searchStr.replace('{'+index+'}', this.parsePlaceholders(replaceArr[index], replaceArr));
+		}
+
+		return returnStr;
+	};
+
 	
 	/**
 	 * Method to return an array of text items
@@ -200,7 +244,7 @@
 	 * @returns {Object}
 	 */
 	IpsumGenerator.prototype.getElementOptions = function($ele) {
-		var optionKeys = ['repeat', 'position', 'maxSize', 'type']
+		var optionKeys = ['repeat', 'position', 'maxSize', 'type', 'attachment']
 			, tagname = $ele[0].tagName.toLowerCase()
 			, returnOptions = $.extend({}, this.options.defaultRules)
 			, attrValue = ''
@@ -250,18 +294,22 @@
 			, delimiter = ' '
 			, $tmpEle = null
 			, tmpHtml = ''
-			, parentTextItems = []
+			, parentTextItems = undefined
 			, newTextItems = []
 			, self = this;
 
 		switch (elementOptions.type) {
 			case 'paragraph':
 				delimiter = '\n';
-				newTextItems = this.getTextItems(size, 'paragraph', false);
+				if (elementOptions.attachment != 'integrate') {
+					newTextItems = this.getTextItems(size, 'paragraph', false);
+				}
 				break;
 			case 'character':
 				delimiter = '';
-				newTextItems = this.getTextItems(size, 'character', false);
+				if (elementOptions.attachment != 'integrate') {
+					newTextItems = this.getTextItems(size, 'character', false);
+				}
 				break;
 			case 'none':
 				// Keep the inner html structure intact with child elements in their current positions
@@ -279,7 +327,9 @@
 			default:
 			case 'word':
 				delimiter = ' ';
-				newTextItems = this.getTextItems(size, 'word', false);
+				if (elementOptions.attachment != 'integrate') {
+					newTextItems = this.getTextItems(size, 'word', false);
+				}
 				break;
 		}
 
@@ -290,6 +340,25 @@
 			switch (elementOptions.position) {
 				case 'random':
 					pos = Math.floor(Math.random() * parentTextItems.length);
+					
+					// Get the text items from the parent when integrating
+					if (elementOptions.attachment === 'integrate' && elementOptions.type != 'none') {
+						// Ensure size does not exeed the number of text items
+						if (size > parentTextItems.length) {
+							size = parentTextItems.length;
+						}
+
+						// Ensure we don't exceed the number of text items
+						if (pos + size > parentTextItems.length) {
+							pos = (parentTextItems.length) - size;
+						}
+
+						// Get new text items
+						newTextItems = parentTextItems.slice(pos, pos+size);
+
+						// Remove text items from parent
+						parentTextItems.splice(pos, size);
+					}
 					break;
 				case 'after':
 					pos = parentTextItems.length;
@@ -310,11 +379,18 @@
 			$children.each(function(c){
 				newChild = self.getHtml($(this), $tmpEle);
 				children.push(newChild);
+
+				// If the child altered the parent text, then apply the changes
+				// Used when integrating child elements into the parent
+				if (newChild.parentText != undefined) {
+					$tmpEle.text(newChild.parentText);
+				}
 				
 				// Insert a placeholder for the child into the html of the parent element
 				$tmpEle = $ele.clone().empty().text(
-					$tmpEle.text().substring(0, newChild.position) + ' {' + c + '}' + $tmpEle.text().substring(newChild.position)
+					$tmpEle.text().substring(0, newChild.position) + ' {' + c + '} ' + $tmpEle.text().substring(newChild.position)
 				);
+
 			});
 		}
 
@@ -322,7 +398,13 @@
 
 		// Replace placeholers with the proper child html
 		for (c in children) {
+
+			// Find placeholders within child
+			// Used when integrating child elements into the parent
+			children[c].html = this.parsePlaceholders(children[c].html, pluck(children, 'html'));
+
 			tmpHtml = tmpHtml.replace('{'+c+'}', children[c].html);
+
 		}
 
 		// Repeat element if needed
@@ -339,7 +421,8 @@
 
 		return {
 			html: tmpHtml,
-			position: elePos
+			position: elePos,
+			parentText: (parentTextItems != undefined) ? parentTextItems.join(delimiter) : undefined
 		};
 
 	}

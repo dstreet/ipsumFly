@@ -1,6 +1,6 @@
 {
   "name": "ipsumFly",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A jQuery plugin to quickly prototype page content using Lorem Ipsum sample text.",
   "devDependencies": {
     "grunt": "~0.4.1",
