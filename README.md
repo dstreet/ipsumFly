@@ -1,4 +1,4 @@
-# Ipsum Fly v.0.1.0
+# Ipsum Fly v.0.2.1
 **Structured Lorem Ipsum on the fly**
 
 A jQuery plugin to quickly prototype page content using Lorem Ipsum sample text.
