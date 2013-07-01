@@ -1,0 +1,194 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Ipsumfly by dstreet</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Ipsumfly</h1>
+        <p>Structured Lorem Ipsum on the fly</p>
+
+        <p class="view"><a href="https://github.com/dstreet/ipsumFly">View the Project on GitHub <small>dstreet/ipsumFly</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/dstreet/ipsumFly/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/dstreet/ipsumFly/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/dstreet/ipsumFly">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a name="ipsum-fly-v021" class="anchor" href="#ipsum-fly-v021"><span class="octicon octicon-link"></span></a>Ipsum Fly v.0.2.1</h1>
+
+<p><strong>Structured Lorem Ipsum on the fly</strong></p>
+
+<p>A jQuery plugin to quickly prototype page content using Lorem Ipsum sample text.</p>
+
+<p>$( selector ).ipsumFly( [options] );</p>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p><strong>Include jQuery (requires v1.7 or higher)</strong></p>
+
+<p><strong>Include ipsumFly.min.js</strong></p>
+
+<p><code>&lt;script type="text/javascript" src="ipsumFly/ipsumFly.min.js"&gt;&lt;/script&gt;</code></p>
+
+<h2>
+<a name="example" class="anchor" href="#example"><span class="octicon octicon-link"></span></a>Example</h2>
+
+<p><strong>The following HTML structure</strong></p>
+
+<div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"ipsum"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;ul&gt;</span>
+        <span class="nt">&lt;li</span> <span class="na">data-ifly-repeat=</span><span class="s">"3"</span><span class="nt">&gt;&lt;/li&gt;</span>
+    <span class="nt">&lt;/ul&gt;</span>
+    <span class="nt">&lt;p&gt;&lt;/p&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</pre></div>
+
+<p><strong>will produce:</strong></p>
+
+<div class="highlight"><pre><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"ipsum"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;ul&gt;</span>
+        <span class="nt">&lt;li</span> <span class="na">data-ifly-repeat=</span><span class="s">"3"</span><span class="nt">&gt;</span>lacinia rhoncus. Phasellus interdum<span class="nt">&lt;/li&gt;</span>
+        <span class="nt">&lt;li&gt;</span>Pellentesque eu risus<span class="nt">&lt;/li&gt;</span>
+        <span class="nt">&lt;li&gt;</span>magna. Mauris ornare<span class="nt">&lt;/li&gt;</span>
+        <span class="nt">&lt;li&gt;</span>Donec tellus leo, bibendum sit<span class="nt">&lt;/li&gt;</span>
+    <span class="nt">&lt;/ul&gt;</span>
+    <span class="nt">&lt;p&gt;</span>
+        Ut sed massa bibendum leo malesuada consequat. Aenean elementum lorem non
+        felis cursus rutrum. Nulla eu mi dui. Nam feugiat, ipsum vitae tincidunt
+        elementum, nibh libero tincidunt odio, nec vulputate tellus mauris at ipsum.
+        Phasellus hendrerit venenatis malesuada. Integer cursus eleifend neque eu
+        tincidunt. Proin volutpat bibendum blandit. Aliquam sit amet purus dolor.
+        Curabitur iaculis ipsum eget elit posuere a congue dolor mattis. Suspendisse
+        accumsan dolor eget quam imperdiet id commodo arcu suscipit. Proin ultrices
+        laoreet consequat.
+    <span class="nt">&lt;/p&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</pre></div>
+
+<h2>
+<a name="options" class="anchor" href="#options"><span class="octicon octicon-link"></span></a>Options</h2>
+
+<ul>
+<li>
+<code>attrPrefix</code>: (String) The prefix for the HTML attribute used for tag specific rules. <strong>Default</strong>: "data-ifly-"</li>
+<li>
+<code>defaultRules</code>: (Object) A base set of rules for all tags. It is recommended to leave this alone. See below for more details.</li>
+<li>
+<code>groups</code>: (Array) An array of HTML tag groups that have the same set of rules. See below for more details.</li>
+<li>
+<code>tags</code>: (Object) A set of rules for particular tags. See below for more details.</li>
+</ul><h2>
+<a name="overriding-rules" class="anchor" href="#overriding-rules"><span class="octicon octicon-link"></span></a>Overriding Rules</h2>
+
+<p><strong>Rules</strong></p>
+
+<ul>
+<li>
+<code>type</code>: (String) The type of text item to output. Acceptable values are "word", "paragraph", "character", or "none".</li>
+<li>
+<code>position</code>: (String) The position of the element in regards to it's parent text. Acceptable values are "before", "after", or "random".</li>
+<li>
+<code>maxSize</code>: (Number) The maximum number of text items to return.</li>
+<li>
+<code>repeat</code>: (Number) The number of times to repeat an element.</li>
+</ul><p><strong>Default</strong></p>
+
+<div class="highlight"><pre><span class="nx">defaultRules</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">type</span><span class="o">:</span> <span class="s1">'word'</span><span class="p">,</span>
+    <span class="nx">position</span><span class="o">:</span> <span class="s1">'before'</span><span class="p">,</span>
+    <span class="nx">maxSize</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="nx">repeat</span><span class="o">:</span> <span class="mi">0</span>
+<span class="p">}</span>
+</pre></div>
+
+<p><strong>Groups</strong></p>
+
+<p>Groups are a way to apply a set of rules to multiple HTML elements at once. <strong>Note:</strong> <em>Group precedence is given in the order they are defined (later defined groups will override previous groups).</em></p>
+
+<p>Default groups:</p>
+
+<div class="highlight"><pre><span class="p">{</span>
+    <span class="nx">tags</span><span class="o">:</span> <span class="p">[</span>
+        <span class="s1">'a'</span><span class="p">,</span> <span class="s1">'abbr'</span><span class="p">,</span> <span class="s1">'acroynm'</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">,</span> <span class="s1">'big'</span><span class="p">,</span> <span class="s1">'cite'</span><span class="p">,</span> <span class="s1">'code'</span><span class="p">,</span> <span class="s1">'details'</span><span class="p">,</span> <span class="s1">'em'</span><span class="p">,</span>
+        <span class="s1">'label'</span><span class="p">,</span> <span class="s1">'q'</span><span class="p">,</span> <span class="s1">'samp'</span><span class="p">,</span> <span class="s1">'small'</span><span class="p">,</span> <span class="s1">'source'</span><span class="p">,</span> <span class="s1">'span'</span><span class="p">,</span> <span class="s1">'strong'</span><span class="p">,</span> <span class="s1">'sub'</span><span class="p">,</span>
+        <span class="s1">'summary'</span><span class="p">,</span> <span class="s1">'sup'</span><span class="p">,</span> <span class="s1">'texarea'</span><span class="p">,</span> <span class="s1">'tt'</span>
+    <span class="p">],</span>
+    <span class="nx">rules</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">position</span><span class="o">:</span> <span class="s1">'random'</span><span class="p">,</span>
+        <span class="nx">maxSize</span><span class="o">:</span> <span class="mi">4</span>
+    <span class="p">}</span>
+<span class="p">},</span>
+<span class="p">{</span>
+    <span class="nx">tags</span><span class="o">:</span> <span class="p">[</span>
+        <span class="s1">'address'</span><span class="p">,</span> <span class="s1">'article'</span><span class="p">,</span> <span class="s1">'blockquote'</span><span class="p">,</span> <span class="s1">'div'</span><span class="p">,</span> <span class="s1">'dl'</span><span class="p">,</span> <span class="s1">'figcaption'</span><span class="p">,</span> <span class="s1">'h1'</span><span class="p">,</span> <span class="s1">'h2'</span><span class="p">,</span> <span class="s1">'h3'</span><span class="p">,</span>
+        <span class="s1">'h4'</span><span class="p">,</span> <span class="s1">'h5'</span><span class="p">,</span> <span class="s1">'h6'</span><span class="p">,</span> <span class="s1">'header'</span><span class="p">,</span> <span class="s1">'ol'</span><span class="p">,</span> <span class="s1">'p'</span><span class="p">,</span> <span class="s1">'pre'</span><span class="p">,</span> <span class="s1">'table'</span><span class="p">,</span> <span class="s1">'section'</span><span class="p">,</span> <span class="s1">'ul'</span><span class="p">,</span> <span class="s1">'li'</span><span class="p">,</span>
+        <span class="s1">'dd'</span><span class="p">,</span> <span class="s1">'dt'</span><span class="p">,</span> <span class="s1">'td'</span>
+    <span class="p">],</span>
+    <span class="nx">rules</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">type</span><span class="o">:</span> <span class="s1">'paragraph'</span><span class="p">,</span>
+        <span class="nx">position</span><span class="o">:</span> <span class="s1">'after'</span><span class="p">,</span>
+        <span class="nx">maxSize</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">},</span>
+<span class="p">{</span>
+    <span class="nx">tags</span><span class="o">:</span> <span class="p">[</span><span class="s1">'h1'</span><span class="p">,</span> <span class="s1">'h2'</span><span class="p">,</span> <span class="s1">'h3'</span><span class="p">,</span> <span class="s1">'h4'</span><span class="p">,</span> <span class="s1">'h5'</span><span class="p">,</span> <span class="s1">'h6'</span><span class="p">],</span>
+    <span class="nx">rules</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">type</span><span class="o">:</span> <span class="s1">'word'</span><span class="p">,</span>
+        <span class="nx">position</span><span class="o">:</span> <span class="s1">'before'</span><span class="p">,</span>
+        <span class="nx">maxSize</span><span class="o">:</span> <span class="mi">5</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<p><strong>Tags</strong></p>
+
+<p>Tags are a way to apply a set of rules to one particular tag. These rules will override any rules defined in a group.</p>
+
+<p>Default tags:</p>
+
+<div class="highlight"><pre><span class="s1">'ul'</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">type</span><span class="o">:</span> <span class="s1">'none'</span>
+<span class="p">},</span>
+<span class="s1">'div'</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">type</span><span class="o">:</span> <span class="s1">'none'</span>
+<span class="p">},</span>
+<span class="s1">'li'</span><span class="o">:</span> <span class="p">{</span>
+    <span class="nx">type</span><span class="o">:</span> <span class="s1">'word'</span><span class="p">,</span>
+    <span class="nx">maxSize</span><span class="o">:</span> <span class="mi">6</span>
+<span class="p">}</span>
+</pre></div>
+
+<h2>
+<a name="todo" class="anchor" href="#todo"><span class="octicon octicon-link"></span></a>TODO</h2>
+
+<ul>
+<li>Consider allowing selectors to be used in groups. For instace: <code>tags: ['h1 &gt; a']</code> would define rules for all <strong>a</strong> tags that are direct descendents of an <strong>h1</strong> tag.</li>
+<li>Add minSize option</li>
+<li>Consider adding support for img tags using placeholder image services.</li>
+</ul>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/dstreet">dstreet</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
